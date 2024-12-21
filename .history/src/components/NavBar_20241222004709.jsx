@@ -11,6 +11,7 @@ const Navbar = () => (
       <div className="flex items-center gap-8">
         <span className="text-white/80 text-sm">LEARN</span>
         <span className="text-white/80 text-sm">EXPLORE</span>
+        <Link to="/wallet" className="text-white/80 text-sm">WALLET</Link>
 
         <span className="text-white/80 text-sm">COMMUNITY</span>
         <span className="text-white/80 text-sm">RESOURCES</span>

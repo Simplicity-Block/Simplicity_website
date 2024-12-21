@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { Info, Wallet, CreditCard } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const GetStartedSteps = () => {
   const stepRefs = [useRef(), useRef(), useRef()];

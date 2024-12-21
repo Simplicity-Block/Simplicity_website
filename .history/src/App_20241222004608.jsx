@@ -62,9 +62,6 @@ const App = () => {
       <Navbar />
       
       <Routes>
-      <Route path="/wallet" element={<WalletPage />} />
-
-
         <Route path="/" element={<MainContent refs={refs} />} />
         <Route path="/downloads" element={<DownloadsPage />} />
       </Routes>

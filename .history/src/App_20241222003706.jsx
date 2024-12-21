@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useRef } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -14,7 +14,6 @@ import GetStartedSteps from './components/GetStartedSteps';
 import Timeline from './components/Timeline';
 import WalletSection from "./components/WalletSection.jsx";
 import DownloadsPage from './components/DownloadsPage';
-import WalletPage from './components/WalletPage';
 
 const MainContent = ({ refs }) => (
   <div className="relative z-10">
@@ -24,7 +23,6 @@ const MainContent = ({ refs }) => (
     <Capabilities />
     <Simplicity />
     <GetStartedSteps />
-
     <WalletSection />
     <Timeline />
   </div>
@@ -57,18 +55,17 @@ const App = () => {
   useScroll(refs);
 
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
-      <BackgroundElements refs={refs} />
-      <Navbar />
-      
-      <Routes>
-      <Route path="/wallet" element={<WalletPage />} />
-
-
-        <Route path="/" element={<MainContent refs={refs} />} />
-        <Route path="/downloads" element={<DownloadsPage />} />
-      </Routes>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-black overflow-hidden">
+        <BackgroundElements refs={refs} />
+        <Navbar />
+        
+        <Routes>
+          <Route path="/" element={<MainContent refs={refs} />} />
+          <Route path="/downloads" element={<DownloadsPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

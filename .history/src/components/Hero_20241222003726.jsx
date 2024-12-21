@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative z-10">
             <div className="mb-8">
-              <div className="text-purple-400 text-4xl font-mono mb-4">{'}'}</div>
+              <div className="text-purple-400 text-4xl font-mono mb-4">}</div>
               <h1 className="text-7xl font-bold text-white mb-6">
                 Learn Blockchain
                 <br />

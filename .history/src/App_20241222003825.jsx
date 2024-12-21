@@ -14,7 +14,6 @@ import GetStartedSteps from './components/GetStartedSteps';
 import Timeline from './components/Timeline';
 import WalletSection from "./components/WalletSection.jsx";
 import DownloadsPage from './components/DownloadsPage';
-import WalletPage from './components/WalletPage';
 
 const MainContent = ({ refs }) => (
   <div className="relative z-10">
@@ -24,7 +23,6 @@ const MainContent = ({ refs }) => (
     <Capabilities />
     <Simplicity />
     <GetStartedSteps />
-
     <WalletSection />
     <Timeline />
   </div>
@@ -62,9 +60,6 @@ const App = () => {
       <Navbar />
       
       <Routes>
-      <Route path="/wallet" element={<WalletPage />} />
-
-
         <Route path="/" element={<MainContent refs={refs} />} />
         <Route path="/downloads" element={<DownloadsPage />} />
       </Routes>
