@@ -12,7 +12,6 @@ import FloatingElements from "./components/FloatingElements.jsx";
 import Simplicity from './components/Simplicity';
 import GetStartedSteps from './components/GetStartedSteps';
 import Timeline from './components/Timeline';
-import WalletSection from "./components/WalletSection.jsx"
 const App = () => {
   const gradientRef = useRef(null);
   const block1Ref = useRef(null);
@@ -51,9 +50,7 @@ const App = () => {
         <Capabilities />
         <Simplicity />
       <GetStartedSteps />
-      <WalletSection/>
       <Timeline />
-
       </div>
 
     </div>

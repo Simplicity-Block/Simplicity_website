@@ -12,7 +12,7 @@ import FloatingElements from "./components/FloatingElements.jsx";
 import Simplicity from './components/Simplicity';
 import GetStartedSteps from './components/GetStartedSteps';
 import Timeline from './components/Timeline';
-import WalletSection from "./components/WalletSection.jsx"
+import WalletSection from "./components/Wallet.jsx"
 const App = () => {
   const gradientRef = useRef(null);
   const block1Ref = useRef(null);
