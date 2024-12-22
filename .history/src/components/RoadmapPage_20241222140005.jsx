@@ -21,7 +21,7 @@ const RoadmapPage = () => {
     {
       id: 'foundation',
       status: 'completed',
-      period: 'Q4 2024',
+      period: 'Q4 2025',
       title: 'Foundation Phase',
       description: 'Establishing the core infrastructure',
       milestones: [

@@ -386,7 +386,11 @@ const BlockchainDocs = () => {
                         <br />
                         Current blockchain state and node synchronization data
                       </li>
-                      
+                      <li>
+                        <strong className="text-white">User Accounts:</strong>
+                        <br />
+                        Wallet addresses and associated metadata
+                      </li>
                     </ul>
                   </div>
                 </section>
