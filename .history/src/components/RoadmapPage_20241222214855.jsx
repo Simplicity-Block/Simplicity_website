@@ -167,43 +167,31 @@ const RoadmapPage = () => {
 
                 {/* Milestones */}
                 <div className={`space-y-6 ${index % 2 === 0 ? '' : 'lg:col-start-1'}`}>
-                {phase.milestones.map((milestone) => (
-  <div
-    key={milestone.title}
-    className="bg-white/5 rounded-xl p-6 border border-purple-500/10 hover:border-purple-500/30 transition-all"
-  >
-    <div className="flex items-start gap-4">
-      <div className="flex-shrink-0">
-        <milestone.icon className={`w-6 h-6 ${getStatusColor(milestone.status)}`} />
-      </div>
-      <div>
-        <h3 className="text-white font-medium mb-2">
-          {milestone.link ? (
-            <a
-              href={milestone.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-400 hover:underline"
-            >
-              {milestone.title}
-            </a>
-          ) : (
-            milestone.title
-          )}
-        </h3>
-        <p className="text-white/60">
-          {milestone.description}
-        </p>
-      </div>
-      <div className="ml-auto flex-shrink-0">
-        {milestone.status === 'completed' && (
-          <Check className="w-5 h-5 text-green-400" />
-        )}
-      </div>
-    </div>
-  </div>
-))}
-
+                  {phase.milestones.map((milestone) => (
+                    <div
+                      key={milestone.title}
+                      className="bg-white/5 rounded-xl p-6 border border-purple-500/10 hover:border-purple-500/30 transition-all"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0">
+                          <milestone.icon className={`w-6 h-6 ${getStatusColor(milestone.status)}`} />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-medium mb-2">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-white/60">
+                            {milestone.description}
+                          </p>
+                        </div>
+                        <div className="ml-auto flex-shrink-0">
+                          {milestone.status === 'completed' && (
+                            <Check className="w-5 h-5 text-green-400" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
