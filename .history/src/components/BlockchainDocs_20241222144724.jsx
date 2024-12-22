@@ -175,8 +175,12 @@ const BlockchainDocs = () => {
   `;
   
   return (
-    <div className="relative z-20 min-h-screen mt-12 bg-transparent pt-24">
-        
+    
+
+    <div className="relative min-h-screen bg-black pt-24 z-20">
+    {/* Overlay to ensure 3D blocks are below this section */}
+    <div className="absolute inset-0 bg-black opacity-90 -z-10"></div>
+    <div className="min-h-screen mt-12 bg-black pt-24">
       <div className="max-w-7xl mx-auto px-8">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">
@@ -397,6 +401,7 @@ const BlockchainDocs = () => {
         </div>
       </div>
     </div>
+</div>
   );
 };
 

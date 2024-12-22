@@ -175,8 +175,10 @@ const BlockchainDocs = () => {
   `;
   
   return (
-    <div className="relative z-20 min-h-screen mt-12 bg-transparent pt-24">
-        
+    
+
+    
+    <div className="min-h-screen mt-12 bg-black pt-24">
       <div className="max-w-7xl mx-auto px-8">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">
