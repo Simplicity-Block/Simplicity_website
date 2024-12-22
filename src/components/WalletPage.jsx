@@ -11,7 +11,10 @@ import {
   Network
 } from 'lucide-react';
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.161.0/three.module.min.js';
-
+// Import images
+import walletImg from '../assets/wallet.jpeg';
+import payImg from '../assets/pay.jpeg';
+import qrImg from '../assets/qr.jpeg';
 const WalletPage = () => {
   const [scrollY, setScrollY] = useState(0);
   const node3dRef = useRef(null);
@@ -33,8 +36,19 @@ const WalletPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [scrollY]);
 
- 
- 
+  const PhoneMockup = ({ imageUrl, className = "" }) => (
+    <div className={`relative ${className}`}>
+      <div className="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
+        <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute" />
+        <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg" />
+        <div className="h-[46px] w-[3px] bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg" />
+        <div className="h-[64px] w-[3px] bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg" />
+        <div className="rounded-[2rem] overflow-hidden w-full h-full bg-white dark:bg-gray-800">
+          <img src={imageUrl} className="w-full h-full object-cover" alt="App Screenshot" />
+        </div>
+      </div>
+    </div>
+  );
   const Node3D = () => {
     const containerRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -53,38 +67,124 @@ const WalletPage = () => {
       // Camera position
       camera.position.z = 5;
   
-      // Create hexagonal node structure
-      const geometry = new THREE.IcosahedronGeometry(2, 1);
-      const edges = new THREE.EdgesGeometry(geometry);
+      // Create main node structure
+      const mainGeometry = new THREE.IcosahedronGeometry(1.5, 2);
+      const mainEdges = new THREE.EdgesGeometry(mainGeometry);
       
-      // Create glowing material
-      const nodeMaterial = new THREE.MeshPhongMaterial({
-        color: 0x9333EA, // Purple color matching UI
+      // Create more interesting materials
+      const mainMaterial = new THREE.MeshPhongMaterial({
+        color: 0x9333EA,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.4,
         shininess: 100,
+        specular: 0xffffff,
+        envMapIntensity: 1,
+        reflectivity: 1,
       });
   
-      // Create wireframe material
-      const wireframeMaterial = new THREE.LineBasicMaterial({
+      // Wireframe with glow effect
+      const glowMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          color: { value: new THREE.Color(0xA855F7) },
+        },
+        vertexShader: `
+          varying vec3 vPosition;
+          void main() {
+            vPosition = position;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float time;
+          uniform vec3 color;
+          varying vec3 vPosition;
+          void main() {
+            float intensity = sin(time * 2.0) * 0.5 + 0.5;
+            gl_FragColor = vec4(color, intensity * 0.5);
+          }
+        `,
+        transparent: true,
+      });
+  
+      // Create meshes
+      const mainMesh = new THREE.Mesh(mainGeometry, mainMaterial);
+      const wireframe = new THREE.LineSegments(mainEdges, glowMaterial);
+      
+      // Add inner sphere for core effect
+      const coreGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+      const coreMaterial = new THREE.MeshPhongMaterial({
         color: 0xA855F7,
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.2,
+        shininess: 100,
       });
-  
-      // Create mesh and wireframe
-      const nodeMesh = new THREE.Mesh(geometry, nodeMaterial);
-      const wireframe = new THREE.LineSegments(edges, wireframeMaterial);
-  
-      // Add to scene
-      scene.add(nodeMesh);
+      const core = new THREE.Mesh(coreGeometry, coreMaterial);
+      
+      scene.add(mainMesh);
       scene.add(wireframe);
+      scene.add(core);
   
-      // Add ambient light
+      // Create orbital rings
+      const createRing = (radius, segments) => {
+        const geometry = new THREE.RingGeometry(radius - 0.05, radius, segments);
+        const material = new THREE.MeshBasicMaterial({
+          color: 0xA855F7,
+          transparent: true,
+          opacity: 0.2,
+          side: THREE.DoubleSide,
+        });
+        const ring = new THREE.Mesh(geometry, material);
+        return ring;
+      };
+  
+      const ring1 = createRing(2.2, 64);
+      const ring2 = createRing(2.5, 64);
+      ring1.rotation.x = Math.PI / 3;
+      ring2.rotation.x = -Math.PI / 4;
+      ring2.rotation.y = Math.PI / 3;
+      scene.add(ring1);
+      scene.add(ring2);
+  
+      // Create floating particles
+      const particlesCount = 200;
+      const positions = new Float32Array(particlesCount * 3);
+      const velocities = new Float32Array(particlesCount * 3);
+      const particlesGeometry = new THREE.BufferGeometry();
+      
+      for (let i = 0; i < particlesCount * 3; i += 3) {
+        // Distribute particles in a spherical pattern
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos((Math.random() * 2) - 1);
+        const radius = 2 + Math.random() * 2;
+        
+        positions[i] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        positions[i + 2] = radius * Math.cos(phi);
+        
+        // Random velocities for movement
+        velocities[i] = (Math.random() - 0.5) * 0.01;
+        velocities[i + 1] = (Math.random() - 0.5) * 0.01;
+        velocities[i + 2] = (Math.random() - 0.5) * 0.01;
+      }
+      
+      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      
+      const particlesMaterial = new THREE.PointsMaterial({
+        color: 0xA855F7,
+        size: 0.03,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+      });
+      
+      const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+      scene.add(particles);
+  
+      // Lighting
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
   
-      // Add point lights for glow effect
       const pointLight1 = new THREE.PointLight(0x9333EA, 2, 10);
       pointLight1.position.set(2, 2, 2);
       scene.add(pointLight1);
@@ -93,35 +193,12 @@ const WalletPage = () => {
       pointLight2.position.set(-2, -2, -2);
       scene.add(pointLight2);
   
-      // Create particles
-      const particlesGeometry = new THREE.BufferGeometry();
-      const particleCount = 100;
-      const positions = new Float32Array(particleCount * 3);
-      const particleMaterial = new THREE.PointsMaterial({
-        color: 0xA855F7,
-        size: 0.05,
-        transparent: true,
-        opacity: 0.5,
-      });
-  
-      // Generate random positions for particles
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 8;
-        positions[i + 1] = (Math.random() - 0.5) * 8;
-        positions[i + 2] = (Math.random() - 0.5) * 8;
-      }
-  
-      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const particles = new THREE.Points(particlesGeometry, particleMaterial);
-      scene.add(particles);
-  
-      // Animation variables
+      // Mouse interaction
       let mouseX = 0;
       let mouseY = 0;
       let targetRotationX = 0;
       let targetRotationY = 0;
   
-      // Mouse movement handlers
       const handleMouseMove = (event) => {
         const rect = containerRef.current.getBoundingClientRect();
         mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -133,24 +210,51 @@ const WalletPage = () => {
   
       containerRef.current.addEventListener('mousemove', handleMouseMove);
   
-      // Animation loop
+      // Animation
+      const clock = new THREE.Clock();
+      let time = 0;
+  
       const animate = () => {
         requestAnimationFrame(animate);
+        time += clock.getDelta();
   
-        // Smooth rotation
-        nodeMesh.rotation.x += (targetRotationX - nodeMesh.rotation.x) * 0.05;
-        nodeMesh.rotation.y += (targetRotationY - nodeMesh.rotation.y) * 0.05;
-        wireframe.rotation.x = nodeMesh.rotation.x;
-        wireframe.rotation.y = nodeMesh.rotation.y;
+        // Update shader time uniform
+        glowMaterial.uniforms.time.value = time;
   
-        // Particle animation
-        particles.rotation.x += 0.0005;
-        particles.rotation.y += 0.0005;
+        // Rotate main mesh and wireframe
+        mainMesh.rotation.x += (targetRotationX - mainMesh.rotation.x) * 0.05;
+        mainMesh.rotation.y += (targetRotationY - mainMesh.rotation.y) * 0.05;
+        wireframe.rotation.copy(mainMesh.rotation);
+        core.rotation.copy(mainMesh.rotation);
+  
+        // Rotate rings
+        ring1.rotation.z += 0.001;
+        ring2.rotation.z -= 0.001;
+  
+        // Update particles
+        const positions = particles.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i] += velocities[i];
+          positions[i + 1] += velocities[i + 1];
+          positions[i + 2] += velocities[i + 2];
+  
+          // Keep particles within bounds
+          const radius = Math.sqrt(
+            positions[i] ** 2 + positions[i + 1] ** 2 + positions[i + 2] ** 2
+          );
+          if (radius > 4) {
+            positions[i] *= 0.95;
+            positions[i + 1] *= 0.95;
+            positions[i + 2] *= 0.95;
+          }
+        }
+        particles.geometry.attributes.position.needsUpdate = true;
   
         // Pulsing effect
-        const pulseFactor = Math.sin(Date.now() * 0.001) * 0.1 + 1;
-        nodeMesh.scale.set(pulseFactor, pulseFactor, pulseFactor);
+        const pulseFactor = Math.sin(time * 2) * 0.05 + 1;
+        mainMesh.scale.set(pulseFactor, pulseFactor, pulseFactor);
         wireframe.scale.set(pulseFactor, pulseFactor, pulseFactor);
+        core.scale.set(pulseFactor * 1.2, pulseFactor * 1.2, pulseFactor * 1.2);
   
         renderer.render(scene, camera);
       };
@@ -158,7 +262,6 @@ const WalletPage = () => {
       animate();
       setIsLoading(false);
   
-      // Cleanup
       return () => {
         containerRef.current?.removeEventListener('mousemove', handleMouseMove);
         containerRef.current?.removeChild(renderer.domElement);
@@ -178,15 +281,10 @@ const WalletPage = () => {
           className="w-full h-full cursor-move"
           style={{ perspective: '1000px' }}
         />
-        {/* Interactive hint */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-purple-400/70 text-sm">
-          Move mouse to rotate
-        </div>
+        
       </div>
     );
   };
-  
-  
 
   return (
     <div className="min-h-screen bg-black">
@@ -278,36 +376,35 @@ const WalletPage = () => {
 
           {/* Wallet Features */}
           <div className="mb-32">
-            <h2 className="text-3xl font-bold text-white text-center mb-16">
-              Intuitive by Design
-            </h2>
-            <div className="space-y-24">
-              {[
-                {
-                  title: "One-Click Connection",
-                  description: "Connect to the Simplicity blockchain instantly with automatic node selection and optimization.",
-                  icon: <Network className="w-12 h-12" />,
-                  imageUrl: "/api/placeholder/600/400"
-                },
-                {
-                  title: "Real-Time Transaction Monitoring",
-                  description: "Watch your transactions propagate through the network with our visual transaction tracker.",
-                  icon: <Blocks className="w-12 h-12" />,
-                  imageUrl: "/api/placeholder/600/400"
-                },
-                {
-                  title: "Smart Account Management",
-                  description: "Create and manage multiple accounts with our intuitive interface. Perfect for both personal and business use.",
-                  icon: <Key className="w-12 h-12" />,
-                  imageUrl: "/api/placeholder/600/400"
-                }
-              ].map((feature, index) => (
-                <div 
-                  key={index}
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
-                    index % 2 === 1 ? 'lg:grid-flow-dense' : ''
-                  }`}
-                >
+        <h2 className="text-3xl font-bold text-white text-center mb-16">
+          Intuitive by Design
+        </h2>
+        <div className="space-y-32">
+          {[
+            {
+              title: "All Your Transactions in One Place",
+              description: "Track your balance and view all transactions in a clean, organized interface. Stay on top of your finances with detailed transaction history and real-time updates.",
+              icon: <Network className="w-12 h-12" />,
+              imageUrl: "https://res.cloudinary.com/paulitechat/image/upload/v1734847539/wo4vhoghzb2q69ucktj2.jpg"
+            },
+            {
+              title: "Quick and Easy Payments",
+              description: "Send payments with just a few taps. Save frequent addresses for quick access or scan QR codes for instant transactions. Multiple payment methods supported for your convenience.",
+              icon: <Blocks className="w-12 h-12" />,
+        imageUrl: "https://res.cloudinary.com/paulitechat/image/upload/v1734847538/wrwfxyd3eui7vapzfmon.jpg"
+            },
+            {
+              title: "Secure QR Code Transactions",
+              description: "Generate and scan QR codes for quick and secure transactions. Perfect for in-person payments and receiving funds from other users.",
+              icon: <Key className="w-12 h-12" />,
+              imageUrl: "https://res.cloudinary.com/paulitechat/image/upload/v1734847538/qe6xk4fv28dngfyydwaz.jpg"
+            }
+          ].map((feature, index) => (
+            <div key={index} className="relative">
+              <div className="max-w-7xl mx-auto px-8">
+                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
+                  index % 2 === 1 ? 'lg:grid-flow-dense' : ''
+                }`}>
                   <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
                     <div className="inline-block text-purple-400 mb-6">
                       {feature.icon}
@@ -323,19 +420,20 @@ const WalletPage = () => {
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
-                  <div>
-                    <div className="rounded-3xl overflow-hidden border border-purple-500/20">
-                      <img 
-                        src={feature.imageUrl} 
-                        alt={feature.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                  <div className={`flex justify-center ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
+                    <PhoneMockup 
+                      imageUrl={feature.imageUrl}
+                      className="transform hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                 </div>
-              ))}
+              </div>
+              {/* Decorative gradient */}
+              <div className="absolute inset-0 bg-gradient-to-b from-purple-900/0 via-purple-900/5 to-purple-900/0 -z-10" />
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
 
           {/* Call to Action */}
           <div className="text-center">
@@ -343,13 +441,18 @@ const WalletPage = () => {
               Ready to Get Started?
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all">
-                Download Wallet
-              </button>
-              <button className="bg-black text-white px-8 py-4 rounded-full text-lg font-medium border border-purple-500/30 hover:border-purple-500 transition-all">
-                View Documentation
-              </button>
-            </div>
+  <a 
+    href="./download/simplicity-wallet.apk" 
+    download 
+    className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all"
+  >
+    Download Wallet
+  </a>
+  <button className="bg-black text-white px-8 py-4 rounded-full text-lg font-medium border border-purple-500/30 hover:border-purple-500 transition-all">
+    View Documentation
+  </button>
+</div>
+
           </div>
         </div>
       </section>

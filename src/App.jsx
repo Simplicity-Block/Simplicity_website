@@ -15,6 +15,9 @@ import Timeline from './components/Timeline';
 import WalletSection from "./components/WalletSection.jsx";
 import DownloadsPage from './components/DownloadsPage';
 import WalletPage from './components/WalletPage';
+import BlockchainDocs from './components/BlockchainDocs.jsx';
+import RoadmapPage from './components/RoadmapPage.jsx';
+import ResourcesPage from './components/ResourcesPage.jsx';
 
 const MainContent = ({ refs }) => (
   <div className="relative z-10">
@@ -63,8 +66,10 @@ const App = () => {
       
       <Routes>
       <Route path="/wallet" element={<WalletPage />} />
+      <Route path="/roadmap" element={<RoadmapPage />} />
+      <Route path="/resources" element={<ResourcesPage />} />
 
-
+      <Route path="/docs" element={<BlockchainDocs />} />
         <Route path="/" element={<MainContent refs={refs} />} />
         <Route path="/downloads" element={<DownloadsPage />} />
       </Routes>
