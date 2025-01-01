@@ -11,9 +11,7 @@ const SmartContractsPage = () => {
     { id: 'ide', name: 'Using the IDE', icon: <Terminal className="w-5 h-5" /> },
     { id: 'deployment', name: 'Deployment', icon: <Server className="w-5 h-5" /> },
   ];
-  const handleIDEClick = () => {
-    window.open('https://simplicity-ide.web.app/', '_blank');
-  };
+
   const codeExamples = {
     basic: `contract wallet with amount, address does
     deposit takes amount does
@@ -167,12 +165,10 @@ const SmartContractsPage = () => {
                       <h4 className="text-white font-medium">One-Click Deployment</h4>
                       <p className="text-white/60 text-sm">Test and deploy your contracts with a single click</p>
                     </div>
-                    <button
-                      onClick={handleIDEClick}
-                      className="ml-auto px-4 py-2 rounded-full bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all cursor-pointer"
-                    >
-                      Try IDE
-                    </button>
+                    <a href="https://simplicity-ide.web.app/" class="ml-auto px-4 py-2 rounded-full bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+    Try Simplicity IDE
+</a>
+
                   </div>
                 </div>
               </CardContent>
