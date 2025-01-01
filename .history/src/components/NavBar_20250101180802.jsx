@@ -65,8 +65,6 @@ const Navbar = () => {
           <Link to="/downloads" className="text-white/80 text-sm hover:text-white">Node</Link>
           <Link to="/wallet" className="text-white/80 text-sm hover:text-white">Wallet</Link>
           <Link to="/roadmap" className="text-white/80 text-sm hover:text-white">Roadmap</Link>
-          <Link to="/smart-contract" className="text-white/80 text-sm hover:text-white">Smart Contract</Link>
-
           <Link to="/resources" className="text-white/80 text-sm hover:text-white">Resources</Link>
         </div>
       </div>
@@ -82,8 +80,6 @@ const Navbar = () => {
         <Link to="/downloads" className="text-white/80 text-sm hover:text-white">Node</Link>
         <Link to="/wallet" className="text-white/80 text-sm hover:text-white">Wallet</Link>
         <Link to="/roadmap" className="text-white/80 text-sm hover:text-white">Roadmap</Link>
-        <Link to="/smart-contract" className="text-white/80 text-sm hover:text-white">Smart Contract</Link>
-
         <Link to="/resources" className="text-white/80 text-sm hover:text-white">Resources</Link>
       </div>
     </nav>
