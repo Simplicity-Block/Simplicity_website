@@ -17,13 +17,14 @@ const DownloadsPage = () => {
     // Simulating download start
     setDownloadStarted(true);
     // Redirect to the actual file
-    window.location.href = '/src/download/simplicity.exe';
+    window.location.href = '/download/simplicity.exe';
   };
 
   const systemRequirements = [
     { icon: <Cpu className="w-5 h-5" />, label: "CPU", value: "64-bit processor, 2 cores minimum" },
-    { icon: <MemoryStick className="w-5 h-5" />, label: "RAM", value: "8 GB minimum" },
-    { icon: <HardDrive className="w-5 h-5" />, label: "Storage", value: "500 GB available space" }
+    { icon: <MemoryStick className="w-5 h-5" />, label: "RAM", value: "4 GB minimum" },
+    { icon: <HardDrive className="w-5 h-5" />, label: "Storage", value: "2 GB available space" },
+    { icon: <AlertCircle className="w-5 h-5" />, label: "Python", value: "Version 3.11 or later must be pre-installed" }
   ];
 
   return (
@@ -41,7 +42,7 @@ const DownloadsPage = () => {
               Download Simplicity Node
             </h1>
             <p className="text-xl text-white/60 max-w-2xl mx-auto">
-              Start mining and transacting with Simplicity. Our node software is optimized for Windows and includes everything you need to participate in the network.
+              Start mining and transacting with Simplicity. Note: This is not a full node and does not save or execute smart contracts. Optimized for Windows 64-bit.
             </p>
           </div>
 
@@ -62,7 +63,7 @@ const DownloadsPage = () => {
               <div className="space-y-6 mb-8">
                 <div className="flex items-center gap-3 text-white/60">
                   <Terminal className="w-5 h-5" />
-                  <span>Full node with mining capabilities</span>
+                  <span>Includes mining capabilities</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/60">
                   <CheckCircle className="w-5 h-5" />

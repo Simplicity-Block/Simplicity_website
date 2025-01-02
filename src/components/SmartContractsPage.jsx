@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code2, Terminal, Play, Book, Archive, Server, Wallet, Shield, Lightning, ChevronRight } from 'lucide-react';
+import { Code2, Terminal, Play, Book,Send , RefreshCw ,  Archive, Server, Download  , Upload  ,  Wallet, Shield , CloudLightning, ChevronRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
 
 const SmartContractsPage = () => {
@@ -11,7 +11,7 @@ const SmartContractsPage = () => {
     { id: 'ide', name: 'Using the IDE', icon: <Terminal className="w-5 h-5" /> },
     { id: 'deployment', name: 'Deployment', icon: <Server className="w-5 h-5" /> },
   ];
-
+F
   const handleIDEClick = () => {
     window.open('https://simplicity-ide.web.app/', '_blank');
   };
@@ -119,7 +119,7 @@ const SmartContractsPage = () => {
                     <h3 className="text-lg font-medium text-white mb-4">Language Features</h3>
                     <ul className="space-y-3 text-white/60">
                       <li className="flex items-center space-x-2">
-                        <Lightning className="w-4 h-4 text-purple-400" />
+                        <CloudLightning className="w-4 h-4 text-purple-400" />
                         <span>Contract state management with 'save'</span>
                       </li>
                       <li className="flex items-center space-x-2">

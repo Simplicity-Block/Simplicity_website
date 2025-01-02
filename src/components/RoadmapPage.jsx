@@ -39,10 +39,55 @@ const RoadmapPage = () => {
         }
       ]
     },
+   
+    {
+      id: 'ecosystem',
+      status: 'upcoming',
+      period: 'Q1 2025',
+      title: 'Ecosystem Growth',
+      description: 'Expanding platform capabilities and user accessibility',
+      milestones: [
+        {
+          title: 'Simplicity-IDE',
+          description: 'Provides an IDE to deploy and execute the smart contracts ',
+          status: 'completed',
+          icon: Coins
+        },
+        {
+          title: 'Simply-lang Integration',
+          description: 'Integration of Simply-lang programming language for smart contract development',
+          status: 'completed',
+          icon: Boxes,
+          link: 'https://simply-lang.vercel.app/'
+        }
+        
+      ]
+    },
+    {
+      id: 'developer',
+      status: 'upcoming',
+      period: 'Q2 2025',
+      title: 'Developer Experience',
+      description: 'Enhancing developer tools and platform integration',
+      milestones: [
+        {
+          title: 'SDK Development',
+          description: 'Release of Flutter and web packages for seamless node interaction via RPC',
+          status: 'completed',
+          icon: PackageSearch
+        }, {
+          title: 'Smart Contracts',
+          description: 'Introduction of smart contract functionality with developer tools and documentation',
+          status: 'completed',
+          icon: Code
+        }
+        
+      ]
+    },
     {
       id: 'consensus',
       status: 'in-progress',
-      period: 'Q1 2025',
+      period: 'Q3 2025',
       title: 'Consensus Evolution',
       description: 'Transitioning to more efficient consensus mechanism',
       milestones: [
@@ -60,50 +105,6 @@ const RoadmapPage = () => {
         }
       ]
     },
-    {
-      id: 'ecosystem',
-      status: 'upcoming',
-      period: 'Q2 2025',
-      title: 'Ecosystem Growth',
-      description: 'Expanding platform capabilities and user accessibility',
-      milestones: [
-        {
-          title: 'Faucet Development',
-          description: 'Implementation of faucet websites for easy testing of Simplicity Coins',
-          status: 'pending',
-          icon: Coins
-        },
-        {
-          title: 'Simply-lang Integration',
-          description: 'Integration of Simply-lang programming language for smart contract development',
-          status: 'pending',
-          icon: Boxes,
-          link: 'https://simply-lang.vercel.app/'
-        }
-        
-      ]
-    },
-    {
-      id: 'developer',
-      status: 'upcoming',
-      period: 'Q3 2025',
-      title: 'Developer Experience',
-      description: 'Enhancing developer tools and platform integration',
-      milestones: [
-        {
-          title: 'SDK Development',
-          description: 'Release of Flutter and web packages for seamless node interaction via RPC',
-          status: 'pending',
-          icon: PackageSearch
-        }, {
-          title: 'Smart Contracts',
-          description: 'Introduction of smart contract functionality with developer tools and documentation',
-          status: 'pending',
-          icon: Code
-        }
-        
-      ]
-    }
   ];
 
   const getStatusColor = (status) => {

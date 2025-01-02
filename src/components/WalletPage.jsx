@@ -442,7 +442,7 @@ const WalletPage = () => {
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
   <a 
-    href="./download/simplicity-wallet.apk" 
+    href="/download/simplicity-wallet.apk" 
     download 
     className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all"
   >
